@@ -5,7 +5,7 @@ import zbarlight
 
 epsilon = 10 #image error sensitivity
 test_sensitivity_epsilon = 10 #bubble darkness error sensitivity
-answer_choices = ['A', 'B', 'C', 'D', 'E', '?'] #answer choices
+answer_choices = ['A', 'B', 'C', 'D', '?'] #answer choices
 
 #load tracking tags
 tags = [cv2.imread("markers/top_left.png", cv2.IMREAD_GRAYSCALE),
@@ -15,9 +15,9 @@ tags = [cv2.imread("markers/top_left.png", cv2.IMREAD_GRAYSCALE),
 
 #test sheet specific scaling constants
 scaling = [605.0, 835.0] #scaling factor for 8.5in. x 11in. paper
-columns = [[72.0 / scaling[0], 33 / scaling[1]], [422.0 / scaling[0], 33 / scaling[1]]] #dimensions of the columns of bubbles
-radius = 10.0 / scaling[0] #radius of the bubbles
-spacing = [35.0 / scaling[0], 32.0 / scaling[1]] #spacing of the rows and columns
+columns = [[56.0 / scaling[0], 120 / scaling[1]], [168.0 / scaling[0], 120 / scaling[1]], [283.0 / scaling[0], 120 / scaling[1]], [395.0 / scaling[0], 120 / scaling[1]], [510.0 / scaling[0], 120 / scaling[1]]] #dimensions of the columns of bubbles
+radius = 5 / scaling[0] #radius of the bubbles
+spacing = [70.0 / scaling[0], 115.0 / scaling[1]] #spacing of the rows and columns
 
 def ProcessPage(paper):
     answers = [] #contains answers
@@ -33,15 +33,17 @@ def ProcessPage(paper):
     dimensions = [corners[1][0] - corners[0][0], corners[2][1] - corners[0][1]]
 
     #iterate over test questions
-    for k in range(0, 2): #columns
-        for i in range(0, 25): #rows
+    for k in range(0, 5): #columns
+        for i in range(0, 6): #rows
             questions = []
-            for j in range(0, 5): #answers
+            for j in range(0, 4): #answers
                 #coordinates of the answer bubble
-                x1 = int((columns[k][0] + j*spacing[0] - radius*1.5)*dimensions[0] + corners[0][0])
+                x1 = int((columns[k][0] + (j/3.5)*spacing[0] - radius*2)*dimensions[0] + corners[0][0])
                 y1 = int((columns[k][1] + i*spacing[1] - radius)*dimensions[1] + corners[0][1])
-                x2 = int((columns[k][0] + j*spacing[0] + radius*1.5)*dimensions[0] + corners[0][0])
-                y2 = int((columns[k][1] + i*spacing[1] + radius)*dimensions[1] + corners[0][1])
+                x2 = int((columns[k][0] + (j/3.5)*spacing[0] + radius*2)*dimensions[0] + corners[0][0])
+                y2 = int((columns[k][1] + i*spacing[1] + radius)*dimensions[1] + corners[0][1] + 5)
+
+                print (x1, y1, x2, y2)
 
                 #draw rectangles around bubbles
                 cv2.rectangle(paper, (x1, y1), (x2, y2), (255, 0, 0), thickness=1, lineType=8, shift=0)
@@ -71,7 +73,7 @@ def ProcessPage(paper):
             #check if the two smallest values are close in value
             if min_val2 - min_val < test_sensitivity_epsilon:
                 #if so, then the question has been double bubbled and is invalid
-                min_arg = 5
+                min_arg = 4
 
             #write the answer
             cv2.putText(paper, answer_choices[min_arg], (x1, y1), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 150, 0), 1)
@@ -80,9 +82,9 @@ def ProcessPage(paper):
             answers.append(answer_choices[min_arg])
 
     #draw the name if found from the QR code
-    if codes is not None:
-        cv2.putText(paper, codes[0], (int(0.28*dimensions[0]), int(0.125*dimensions[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
-    else:
+    # if codes is not None:
+    #     cv2.putText(paper, codes[0], (int(0.28*dimensions[0]), int(0.125*dimensions[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
+    # else:
         codes = [-1]
     return answers, paper, codes
 
