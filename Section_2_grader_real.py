@@ -15,9 +15,9 @@ tags = [cv2.imread("markers/top_left.png", cv2.IMREAD_GRAYSCALE),
 
 #test sheet specific scaling constants
 scaling = [605.0, 835.0] #scaling factor for 8.5in. x 11in. paper
-columns = [[36.0 / scaling[0], 110 / scaling[1]], [154.0 / scaling[0], 110 / scaling[1]], [275.0 / scaling[0], 110 / scaling[1]], [395.0 / scaling[0], 110 / scaling[1]], [512.0 / scaling[0], 110 / scaling[1]]] #dimensions of the columns of bubbles
+columns = [[38.0 / scaling[0], 74 / scaling[1]], [156.0 / scaling[0], 74 / scaling[1]], [275.0 / scaling[0], 74 / scaling[1]], [395.0 / scaling[0], 74 / scaling[1]], [512.0 / scaling[0], 74 / scaling[1]]] #dimensions of the columns of bubbles
 radius = 5 / scaling[0] #radius of the bubbles
-spacing = [70.0 / scaling[0], 117.0 / scaling[1]] #spacing of the rows and columns
+spacing = [70.0 / scaling[0], 82.0 / scaling[1]] #spacing of the rows and columns
 
 def ProcessPage(paper):
     answers = [] #contains answers
@@ -36,9 +36,14 @@ def ProcessPage(paper):
     print (dimensions)
     #iterate over test questions
     for k in range(0, 5): #columns
-        for i in range(0, 6): #rows
+        for i in range(0, 9): #rows
+            if (i == 8 and k == 4):
+                print('Number is ' + str(i))
+                continue
+            
             questions = []
             for j in range(0, 4): #answers
+
                 #coordinates of the answer bubble
                 x1 = int((columns[k][0] + (j/3.5)*spacing[0] - radius*2)*dimensions[0] + corners[0][0])
                 y1 = int((columns[k][1] + i*spacing[1] - radius)*dimensions[1] + corners[0][1])

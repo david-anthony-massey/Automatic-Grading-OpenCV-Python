@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-from Section_4FR_grader import ProcessPage
+from Section_2_grader_real import ProcessPage
 
 #alogrithm for sorting points clockwise
 def clockwise_sort(x):
@@ -19,7 +19,7 @@ cap = cv2.VideoCapture(0)
 
 
 #ret, image = cap.read()
-image = cv2.imread("T1_S4FR.jpg")
+image = cv2.imread("T1_S2.jpg")
 ratio = len(image[0]) / 500.0 #used for resizing the image
 original_image = image.copy() #make a copy of the original image
 
