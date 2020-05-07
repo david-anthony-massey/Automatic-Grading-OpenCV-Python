@@ -15,9 +15,9 @@ tags = [cv2.imread("markers/top_left.png", cv2.IMREAD_GRAYSCALE),
 
 #test sheet specific scaling constants
 scaling = [605.0, 835.0] #scaling factor for 8.5in. x 11in. paper
-columns = [[56.0 / scaling[0], 120 / scaling[1]], [168.0 / scaling[0], 120 / scaling[1]], [283.0 / scaling[0], 120 / scaling[1]], [395.0 / scaling[0], 120 / scaling[1]], [510.0 / scaling[0], 120 / scaling[1]]] #dimensions of the columns of bubbles
+columns = [[36.0 / scaling[0], 110 / scaling[1]], [154.0 / scaling[0], 110 / scaling[1]], [275.0 / scaling[0], 110 / scaling[1]], [395.0 / scaling[0], 110 / scaling[1]], [512.0 / scaling[0], 110 / scaling[1]]] #dimensions of the columns of bubbles
 radius = 5 / scaling[0] #radius of the bubbles
-spacing = [70.0 / scaling[0], 115.0 / scaling[1]] #spacing of the rows and columns
+spacing = [70.0 / scaling[0], 117.0 / scaling[1]] #spacing of the rows and columns
 
 def ProcessPage(paper):
     answers = [] #contains answers

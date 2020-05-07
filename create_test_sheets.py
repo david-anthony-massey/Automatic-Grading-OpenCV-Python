@@ -3,31 +3,27 @@ import numpy as np
 import qrcode
 
 #read the blank test sheet
-sheet = cv2.imread("test_sheet.png")
+sheet_S4 = cv2.imread("S2.png")
 
 #convert to grayscale
-sheet = cv2.cvtColor(sheet, cv2.COLOR_BGR2GRAY)
+sheet_S4 = cv2.cvtColor(sheet_S4, cv2.COLOR_BGR2GRAY)
 
-#scaling constants
-x_offset = 330
-y_offset = 10
-
-name = "Test name"
+name_S4 = "T1_S2"
 
 #make QR code
-qr_img = qrcode.make(name)
-qr_img = np.float32(qr_img)
+qr_img_S4 = qrcode.make(name_S4)
+qr_img_S4 = np.float32(qr_img_S4)
 
 #crop and resize QR code
-qr_img = qr_img[40:260, 40:250]
-qr_img = cv2.resize(qr_img, (0, 0), fx=0.7, fy=0.7)
+qr_img_S4 = qr_img_S4[40:260, 40:250]
+qr_img_S4 = cv2.resize(qr_img_S4, (0, 0), fx=0.7, fy=0.7)
 
 #calculate coordinates where the QR code should be placed
-y1, y2 = y_offset, y_offset + qr_img.shape[0]
-x1, x2 = x_offset, x_offset + qr_img.shape[1]
+y1_S4, y2_S4 = 890, 1044
+x1_S4, x2_S4 = 50, 197
 
 #place the QR code on the sheet
-sheet[y1:y2, x1:x2] = qr_img * 255
+sheet_S4[y1_S4:y2_S4, x1_S4:x2_S4] = qr_img_S4 * 255
 
 #write the image file
-cv2.imwrite(str(name[:-1]) + ".png", sheet)
+cv2.imwrite(str(name_S4) + ".png", sheet_S4)
